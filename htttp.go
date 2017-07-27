@@ -13,7 +13,7 @@ import (
 type Params map[string]string
 type Handle func(*http.Request, Params) *Response
 type Handler struct {
-	httprouter *httprouter.Router
+	Router *httprouter.Router
 }
 
 var access *log.Logger
@@ -24,7 +24,7 @@ func init() {
 
 func New() *Handler {
 	return &Handler{
-		httprouter: httprouter.New(),
+		Router: httprouter.New(),
 	}
 }
 
@@ -38,7 +38,7 @@ func (handler *Handler) ServeHTTP(w http.ResponseWriter, req *http.Request) {
 	w.Header().Set("Access-Control-Allow-Headers", "Accept, Content-Type")
 	w.Header().Set("Access-Control-Allow-Methods", "GET, POST, PUT, PATCH, DELETE")
 
-	handler.httprouter.ServeHTTP(w, req)
+	handler.Router.ServeHTTP(w, req)
 }
 
 func serve(w http.ResponseWriter, res *Response) {

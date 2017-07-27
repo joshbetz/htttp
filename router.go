@@ -28,7 +28,7 @@ func (handler *Handler) Delete(path string, handle Handle) {
 }
 
 func (handler *Handler) Handle(method, path string, handle Handle) {
-	handler.httprouter.Handle(method, path, func(w http.ResponseWriter, req *http.Request, ps httprouter.Params) {
+	handler.Router.Handle(method, path, func(w http.ResponseWriter, req *http.Request, ps httprouter.Params) {
 		params := map[string]string{}
 		for _, p := range ps {
 			params[p.Key] = p.Value
