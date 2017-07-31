@@ -1,23 +1,35 @@
 package htttp
 
+import (
+	"net/http"
+)
+
 type Response struct {
 	Code int
 	Data *interface{}
 }
 
-func Res(data interface{}) *Response {
+func Success(data interface{}) *Response {
 	return &Response{
 		Data: &data,
 	}
 }
 
-func ResWithCode(code int, data interface{}) *Response {
+func Status(code int) *Response {
 	return &Response{
 		Code: code,
-		Data: &data,
 	}
 }
 
-func Error(code int, data interface{}) *Response {
-	return ResWithCode(code, data)
+func (res *Response) Response(data interface{}) *Response {
+	if res.Data != nil {
+		panic("Overwriting response data")
+	}
+
+	res.Data = &data
+	return res
+}
+
+func Error(code int) *Response {
+	return Status(code).Response(http.StatusText(code))
 }
